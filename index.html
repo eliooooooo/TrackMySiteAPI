@@ -7,7 +7,33 @@
 </head>
 <body>
     <script>
-        let page = 'test.html';
+        console.log(navigator);
+
+        const optionsPos = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
+        const successPos = (pos) => {
+            const crd = pos.coords;
+
+            longitude = crd.longitude;
+            latitude = crd.latitude;
+            accuracy = crd.accuracy;
+            console.log(crd.latitude);
+            console.log(crd.longitude)
+            console.log(crd.accuracy)
+            return { longitude, latitude, accuray };
+        }
+
+        const errorPos = (err) => {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+        
+        // navigator.geolocation.getCurrentPosition(successPos, errorPos, optionsPos);
+
+        let page = window.location.pathname;
 
         let query = window.location.search;
         let urlParams = new URLSearchParams(query);
@@ -17,6 +43,12 @@
         let content = urlParams.get("utm_content");
         let term = urlParams.get("utm_term");
         let medium = urlParams.get("utm_medium");
+
+        let language = navigator.language;
+        let user = {
+            language : language
+        }
+
         
         fetch('http://127.0.0.1:3000/log-connection', {
             method: 'POST',
@@ -29,7 +61,8 @@
                 campaign: campaign,
                 content: content,
                 term: term,
-                medium: medium
+                medium: medium,
+                user: user
             })
         })
         .then(response => response.text())

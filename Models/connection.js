@@ -25,6 +25,9 @@ const connectionSchema = new mongoose.Schema({
     },
     medium: {
         type: String
+    },
+    user: {
+        language: { type: String },
     }
 });
 

@@ -39,7 +39,8 @@ app.post('/log-connection', (req, res) => {
         campaign: req.body.campaign,
         content: req.body.content,
         term: req.body.term,
-        medium: req.body.medium
+        medium: req.body.medium,
+        user: req.body.user
     });
     newConnection.save()
         .then(() => res.status(200).send('Connexion enregistrée'))
