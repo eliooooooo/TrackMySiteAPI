@@ -7,16 +7,30 @@
 </head>
 <body>
     <script>
+        let page = 'test.html';
+
         let query = window.location.search;
         let urlParams = new URLSearchParams(query);
+
         let source = urlParams.get("utm_source");
+        let campaign = urlParams.get("utm_campaign");
+        let content = urlParams.get("utm_content");
+        let term = urlParams.get("utm_term");
+        let medium = urlParams.get("utm_medium");
         
         fetch('http://127.0.0.1:3000/log-connection', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ page: 'test.html', source: source })
+            body: JSON.stringify({ 
+                page: page,
+                source: source,
+                campaign: campaign,
+                content: content,
+                term: term,
+                medium: medium
+            })
         })
         .then(response => response.text())
         .then(data => console.log(data))

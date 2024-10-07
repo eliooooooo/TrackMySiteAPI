@@ -13,6 +13,18 @@ const connectionSchema = new mongoose.Schema({
     },
     source: {
         type: String
+    },
+    campaign: {
+        type: String
+    },
+    content: {
+        type: String
+    },
+    term: {
+        type: String
+    },
+    medium: {
+        type: String
     }
 });
 

@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const Connection = require('./Models/connection');
 
 // Récupération des crédentials de la bdd
@@ -9,15 +9,13 @@ dotenv.config();
 let db_user = process.env.DB_USER;
 let db_password = process.env.DB_PASSWORD;
 
-// Création de l'application Express
 const app = express();
-app.use(cors({
-    origin: '*',
-    methods: 'GET, POST, PUT, DELETE',
-    credentials: true
-}));
+
+// Utiliser le middleware CORS
+app.use(cors());
+
+// Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 // Connexion à la base de données MongoDB
 mongoose.connect(`mongodb+srv://${db_user}:${db_password}@mongotable.rbtmi.mongodb.net/sample_mflix?retryWrites=true&w=majority&appName=MongoTable`)
@@ -34,7 +32,15 @@ mongoose.connect(`mongodb+srv://${db_user}:${db_password}@mongotable.rbtmi.mongo
 
 // Route pour enregistrer la connexion
 app.post('/log-connection', (req, res) => {
-    const newConnection = new Connection({ page: 'index.html' });
+    console.log(req.body);
+    const newConnection = new Connection({ 
+        page: req.body.page, 
+        source: req.body.source,
+        campaign: req.body.campaign,
+        content: req.body.content,
+        term: req.body.term,
+        medium: req.body.medium
+    });
     newConnection.save()
         .then(() => res.status(200).send('Connexion enregistrée'))
         .catch((error) => res.status(500).send('Erreur lors de l\'enregistrement de la connexion'));
