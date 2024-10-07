@@ -44,5 +44,5 @@ app.post('/log-connection', (req, res) => {
     });
     newConnection.save()
         .then(() => res.status(200).send('Connexion enregistrée'))
-        .catch((error) => res.status(500).send('Erreur lors de l\'enregistrement de la connexion'));
+        .catch((error) => res.status(500).send(`Erreur lors de l\'enregistrement de la connexion : ${error}`));
 });

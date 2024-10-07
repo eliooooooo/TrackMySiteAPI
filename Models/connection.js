@@ -9,7 +9,6 @@ const connectionSchema = new mongoose.Schema({
     },
     page: {
         type: String,
-        required: true
     },
     source: {
         type: String
@@ -28,6 +27,12 @@ const connectionSchema = new mongoose.Schema({
     },
     user: {
         language: { type: String },
+        location: {
+            latitude: { type: String },
+            longitude: { type: String }
+        },
+        platform: { type: String },
+        userAgent: { type: String }
     }
 });
 
