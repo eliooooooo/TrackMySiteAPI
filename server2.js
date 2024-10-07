@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const cors = require('cors'); // Importer le middleware CORS
-const Connection = require('./Models/connection'); // Assurez-vous que le chemin est correct
+const cors = require('cors');
+const Connection = require('./Models/connection');
 
 // Récupération des crédentials de la bdd
 dotenv.config();
@@ -33,7 +33,7 @@ mongoose.connect(`mongodb+srv://${db_user}:${db_password}@mongotable.rbtmi.mongo
 // Route pour enregistrer la connexion
 app.post('/log-connection', (req, res) => {
     console.log(req.body);
-    const newConnection = new Connection({ page: req.body.page });
+    const newConnection = new Connection({ page: req.body.page, source: req.body.source });
     newConnection.save()
         .then(() => res.status(200).send('Connexion enregistrée'))
         .catch((error) => res.status(500).send('Erreur lors de l\'enregistrement de la connexion'));

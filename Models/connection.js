@@ -1,4 +1,5 @@
 // models/connection.js
+const { type } = require('express/lib/response');
 const mongoose = require('mongoose');
 
 const connectionSchema = new mongoose.Schema({
@@ -9,6 +10,9 @@ const connectionSchema = new mongoose.Schema({
     page: {
         type: String,
         required: true
+    },
+    source: {
+        type: String
     }
 });
 
