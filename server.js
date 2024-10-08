@@ -46,3 +46,10 @@ app.post('/log-connection', (req, res) => {
         .then(() => res.status(200).send('Connexion enregistrée'))
         .catch((error) => res.status(500).send(`Erreur lors de l\'enregistrement de la connexion : ${error}`));
 });
+
+app.delete('/log-delete/:id', async (req, res) => {
+    const id = req.params.id;
+    await Connection.findOneAndDelete(id)
+    .then(() => res.status(200).send('Log supprimée'))
+    .catch((error) => res.status(500).send(`Erreur lors de la suppression de la connexion : ${error}`))
+})
