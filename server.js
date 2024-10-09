@@ -50,6 +50,6 @@ app.post('/log-connection', (req, res) => {
 app.delete('/log-delete/:id', async (req, res) => {
     const id = req.params.id;
     await Connection.findOneAndDelete(id)
-    .then(() => res.status(200).send('Log supprimée'))
+    .then(() => res.status(200).send('Connexion supprimée'))
     .catch((error) => res.status(500).send(`Erreur lors de la suppression de la connexion : ${error}`))
 })
