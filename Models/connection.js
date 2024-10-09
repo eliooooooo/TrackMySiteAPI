@@ -1,4 +1,3 @@
-// models/connection.js
 const { type } = require('express/lib/response');
 const mongoose = require('mongoose');
 
