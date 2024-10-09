@@ -4,6 +4,7 @@
  * @param { params } params 
  */
 export const sendInfos = ({ includePage = true, includeUtms = true , includeUserAgent = true, includePlatform = true, includeLanguage = true, includeGeolocation = true } = {}) => {
+    let apiKey = "1234";
     let page = "";
     if (includePage) {
         page = window.location.pathname;
@@ -42,7 +43,8 @@ export const sendInfos = ({ includePage = true, includeUtms = true , includeUser
         fetch('http://127.0.0.1:3000/log-connection', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey
             },
             body: JSON.stringify({ 
                 page: page,

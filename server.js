@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const Connection = require('./Models/connection');
+const ApiKey = require('./Models/apiKey');
 
 // Récupération des crédentials de la bdd
 dotenv.config();
@@ -11,14 +12,17 @@ let db_password = process.env.DB_PASSWORD;
 
 const app = express();
 
-// Utiliser le middleware CORS
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: 'GET, POST, PUT, DELETE',
+    credentials: true
+}));
 
 // Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
 
 // Connexion à la base de données MongoDB
-mongoose.connect(`mongodb+srv://${db_user}:${db_password}@mongotable.rbtmi.mongodb.net/sample_mflix?retryWrites=true&w=majority&appName=MongoTable`)
+mongoose.connect(`mongodb+srv://${db_user}:${db_password}@trackmysite.jh1hp.mongodb.net/?retryWrites=true&w=majority&appName=TrackMySite`)
 .then(() => {
     console.log('Connexion à la base de données réussie');
     // Démarrage du serveur
@@ -30,8 +34,25 @@ mongoose.connect(`mongodb+srv://${db_user}:${db_password}@mongotable.rbtmi.mongo
     console.error('Erreur de connexion à la base de données', error);
 });
 
+const checkApiKey = async (req, res, next) => {
+    const apiKey = req.headers['x-api-key'];
+    if (!apiKey) {
+        return res.status(401).send('Clé API manquante');
+    }
+
+    try {
+        const key = await ApiKey.findOne({ key: apiKey });
+        if (!key) {
+            return res.status(401).send('Clé API invalide');
+        }
+        next();
+    } catch (error) {
+        return res.status(500).send(`Erreur lors de la vérification de la clé API : ${error}`);
+    }
+}
+
 // Route pour enregistrer la connexion
-app.post('/log-connection', (req, res) => {
+app.post('/log-connection', checkApiKey, (req, res) => {
     console.log(req.body);
     const newConnection = new Connection({ 
         page: req.body.page, 
@@ -47,7 +68,7 @@ app.post('/log-connection', (req, res) => {
         .catch((error) => res.status(500).send(`Erreur lors de l\'enregistrement de la connexion : ${error}`));
 });
 
-app.delete('/log-delete/:id', async (req, res) => {
+app.delete('/log-delete/:id', checkApiKey, async (req, res) => {
     const id = req.params.id;
     await Connection.findOneAndDelete(id)
     .then(() => res.status(200).send('Connexion supprimée'))
