@@ -36,18 +36,21 @@ mongoose.connect(`mongodb+srv://${db_user}:${db_password}@trackmysite.jh1hp.mong
 
 const checkApiKey = async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
+    const origin = req.headers['x-origin'];
     if (!apiKey) {
         return res.status(401).send('Clé API manquante');
+    } else if (!origin) {
+        return res.status(401).send('Origine de la requête manquante');
     }
 
     try {
-        const key = await ApiKey.findOne({ key: apiKey });
+        const key = await ApiKey.findOne({ key: apiKey, origin: origin });
         if (!key) {
-            return res.status(401).send('Clé API invalide');
+            return res.status(401).send('Clé API invalide ou origine non correspondante');
         }
         next();
     } catch (error) {
-        return res.status(500).send(`Erreur lors de la vérification de la clé API : ${error}`);
+        return res.status(500).send(`Erreur lors de la vérification de la connexion : ${error}`);
     }
 }
 

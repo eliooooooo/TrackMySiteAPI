@@ -5,6 +5,10 @@ const apiKeySchema = new mongoose.Schema({
     key: {
         type: String,
         required: true
+    }, 
+    origin: {
+        type: String,
+        required: true
     }
 });
 

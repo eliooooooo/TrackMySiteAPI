@@ -1,10 +1,10 @@
 import { sendInfos } from './function.js';
 
 // Send infos only one time per sessions
-if (!sessionStorage.getItem('isFirstConnection')) {
-    sendInfos();
-    sessionStorage.setItem('isFirstConnection', 'true');
-}
+//if (!sessionStorage.getItem('isFirstConnection')) {
+    sendInfos( '1234' );
+//    sessionStorage.setItem('isFirstConnection', 'true');
+//}
 
 
 

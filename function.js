@@ -3,8 +3,9 @@
  * 
  * @param { params } params 
  */
-export const sendInfos = ({ includePage = true, includeUtms = true , includeUserAgent = true, includePlatform = true, includeLanguage = true, includeGeolocation = true } = {}) => {
-    let apiKey = "1234";
+export const sendInfos = ( apiKey, { includePage = true, includeUtms = true , includeUserAgent = true, includePlatform = true, includeLanguage = true, includeGeolocation = true } = {}) => {
+    let origin = window.location.origin;
+    
     let page = "";
     if (includePage) {
         page = window.location.pathname;
@@ -44,7 +45,8 @@ export const sendInfos = ({ includePage = true, includeUtms = true , includeUser
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': apiKey
+                'x-api-key': apiKey,
+                'x-origin': origin,
             },
             body: JSON.stringify({ 
                 page: page,
