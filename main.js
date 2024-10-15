@@ -2,19 +2,17 @@ import { sendInfos } from './function.js';
 import { cookieConsent } from './cookieConsent.js'
 
 // Send infos only one time per sessions
-//if (!sessionStorage.getItem('isFirstConnection')) {
+if (!sessionStorage.getItem('isFirstConnection') && localStorage.getItem('cookieConsent') == 'accepted') {
     sendInfos( '1234' );
-//    sessionStorage.setItem('isFirstConnection', 'true');
-//}
+    sessionStorage.setItem('isFirstConnection', 'true');
+}
 
 
 
-const request = async () => {
-    const opt_in = cookieConsent();
-    console.log(opt_in);
-};
-
-request();
+// Vérifiez si l'utilisateur a déjà donné son consentement
+if (!localStorage.getItem('cookieConsent')) {
+    cookieConsent();
+}
 
 
 //! beforeunload
