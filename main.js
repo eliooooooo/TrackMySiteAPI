@@ -1,4 +1,5 @@
 import { sendInfos } from './function.js';
+import { cookieConsent } from './cookieConsent.js'
 
 // Send infos only one time per sessions
 //if (!sessionStorage.getItem('isFirstConnection')) {
@@ -6,6 +7,14 @@ import { sendInfos } from './function.js';
 //    sessionStorage.setItem('isFirstConnection', 'true');
 //}
 
+
+
+const request = async () => {
+    const opt_in = cookieConsent();
+    console.log(opt_in);
+};
+
+request();
 
 
 //! beforeunload
