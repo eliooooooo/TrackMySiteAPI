@@ -1,0 +1,9 @@
+name: track-my-site-api
+services: 
+  appserver: 
+    type: php:8.3
+    webroot: .
+    ssl: true
+proxy:
+  appserver:
+    - track-my-site-api.lndo.site
