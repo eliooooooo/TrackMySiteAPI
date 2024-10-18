@@ -4,8 +4,6 @@
  * @param { params } params 
  */
 export const sendInfos = ( apiKey, { includePage = true, includeUtms = true , includeUserAgent = true, includePlatform = true, includeLanguage = true, includeGeolocation = true } = {}) => {
-    let origin = window.location.origin;
-    
     let page = "";
     if (includePage) {
         page = window.location.pathname;
@@ -46,7 +44,6 @@ export const sendInfos = ( apiKey, { includePage = true, includeUtms = true , in
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': apiKey,
-                'x-origin': origin,
             },
             body: JSON.stringify({ 
                 page: page,
