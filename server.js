@@ -48,7 +48,23 @@ const checkApiKey = async (req, res, next) => {
         if (!key) {
             return res.status(401).send('Clé API invalide ou origine non correspondante');
         }
-        next();
+
+        // Vérifier si l'origine utilise HTTPS et a un certificat valide
+        const url = new URL(origin);
+        if (url.protocol !== 'https:') {
+            return res.status(401).send('Origine non sécurisée (HTTPS requis)');
+        }
+
+        https.get(origin, (response) => {
+            const certificate = response.socket.getPeerCertificate();
+            if (!certificate || Object.keys(certificate).length === 0) {
+                return res.status(401).send('Certificat SSL invalide ou manquant');
+            }
+            next();
+        }).on('error', (err) => {
+            return res.status(401).send(`Erreur lors de la vérification du certificat SSL : ${err.message}`);
+        });
+
     } catch (error) {
         return res.status(500).send(`Erreur lors de la vérification de la connexion : ${error}`);
     }
