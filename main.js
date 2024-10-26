@@ -1,13 +1,20 @@
 import { sendInfos } from './function.js';
-import { cookieConsent } from './cookieConsent.js'
+import { cookieConsent } from './cookieConsent.js';
 
 // Send infos only one time per sessions
 if (!sessionStorage.getItem('isFirstConnection') && localStorage.getItem('cookieConsent') == 'accepted') {
-    sendInfos( '1234' );
+    sendInfos( '1234', { includeGeolocation : false } );
     sessionStorage.setItem('isFirstConnection', 'true');
 }
 
-
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('cookie-consent-accept').addEventListener('click', () => {
+        if (!sessionStorage.getItem('isFirstConnection')){
+            sendInfos( '1234', { includeGeolocation : false } );
+            sessionStorage.setItem('isFirstConnection', 'true');
+        }
+    });
+});
 
 // Vérifiez si l'utilisateur a déjà donné son consentement
 if (!localStorage.getItem('cookieConsent')) {

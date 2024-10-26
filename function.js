@@ -44,6 +44,7 @@ export const sendInfos = ( apiKey, { includePage = true, includeUtms = true , in
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': apiKey,
+                'x-origin': window.location.origin
             },
             body: JSON.stringify({ 
                 page: page,

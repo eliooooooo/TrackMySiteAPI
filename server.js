@@ -36,7 +36,7 @@ mongoose.connect(`mongodb+srv://${db_user}:${db_password}@trackmysite.jh1hp.mong
 
 const checkApiKey = async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
-    const origin = req.headers['Origin'];
+    const origin = req.headers['x-origin'];
     if (!apiKey) {
         return res.status(401).send('Clé API manquante');
     } else if (!origin) {
